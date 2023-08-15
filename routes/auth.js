@@ -17,6 +17,6 @@ router.get("/profile", (req, res) => {
   authController.getProfile(req, res);
   authMiddleware.authenticate(req, res);
 });
-// Add more routes as needed
+/// Add more routes as needed
 
 module.exports = router;

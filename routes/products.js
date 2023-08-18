@@ -1,11 +1,9 @@
-// routes/products.js
 const express = require("express");
 const router = express.Router();
-const productController = require("../controllers/productController"); // Import the productController module
+const productController = require("../controllers/productController");
 const authMiddleware = require("../middlewares/authMiddleware");
-const productService = require("../services/productService"); // Import the productService
+const productService = require("../services/productService");
 
-// Define product routes
 router.get("/", async (req, res) => {
   try {
     const products = await productService.getAllProducts();
@@ -18,17 +16,32 @@ router.get("/", async (req, res) => {
 router.get("/:id", (req, res) => {
   productController.getProductById(req, res);
 });
-router.post("/", (req, res) => {
-  productController.createProduct(req, res);
-  authMiddleware.isAdmin(req, res);
-});
-router.put("/:id", (req, res) => {
-  productController.updateProduct(req, res);
-  authMiddleware.isAdmin(req, res);
-});
-router.delete("/:id", (req, res) => {
-  productController.deleteProduct(req, res);
-  authMiddleware.isAdmin(req, res);
-});
+
+router.post(
+  "/",
+  authMiddleware.authenticate,
+  authMiddleware.isAdmin,
+  (req, res) => {
+    productController.createProduct(req, res);
+  }
+);
+
+router.put(
+  "/:id",
+  authMiddleware.authenticate,
+  authMiddleware.isAdmin,
+  (req, res) => {
+    productController.updateProduct(req, res);
+  }
+);
+
+router.delete(
+  "/:id",
+  authMiddleware.authenticate,
+  authMiddleware.isAdmin,
+  (req, res) => {
+    productController.deleteProduct(req, res);
+  }
+);
 
 module.exports = router;

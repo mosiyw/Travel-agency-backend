@@ -31,6 +31,7 @@ exports.register = async (req, res) => {
 
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "An error occurred" });
   }
 };
@@ -49,7 +50,7 @@ exports.login = async (req, res) => {
       return res.status(401).json({ error: "Invalid credentials" });
     }
 
-    const token = jwt.sign({ userId: user._id }, "your-secret-key", {
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
     res.json({ message: "Login successful", token });

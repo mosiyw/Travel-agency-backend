@@ -29,8 +29,15 @@ exports.createProduct = async (req, res) => {
       return res.status(403).json({ error: "Permission denied" });
     }
 
-    const { name, price, description } = req.body;
-    const product = await Product.create({ name, price, description });
+    const { name, price, description, image, grouping, createdAt } = req.body;
+    const product = await Product.create({
+      name,
+      price,
+      description,
+      image,
+      grouping,
+      createdAt,
+    });
     res.status(201).json({ message: "Product created successfully", product });
   } catch (error) {
     res.status(500).json({ error: "An error occurred" });

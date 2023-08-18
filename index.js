@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser"); // Import cookie-parser
 const { connectToDatabase } = require("./config/database"); // Import the connectToDatabase function
 require("dotenv").config(); // Load environment variables from .env
 
@@ -7,6 +8,7 @@ const app = express();
 
 // Middleware
 app.use(bodyParser.json());
+app.use(cookieParser()); // Use cookie-parser middleware
 
 // Connect to the database
 connectToDatabase();

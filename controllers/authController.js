@@ -49,6 +49,7 @@ exports.login = async (req, res) => {
     if (!isPasswordValid) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
+
     const token = jwt.sign(
       { userId: user._id, isAdmin: user.isAdmin },
       process.env.JWT_SECRET,
@@ -56,6 +57,10 @@ exports.login = async (req, res) => {
         expiresIn: "1h",
       }
     );
+
+    // Set the token as a cookie
+    res.cookie("token", token, { httpOnly: true });
+
     res.json({ message: "Login successful", token });
   } catch (error) {
     res.status(500).json({ error: "An error occurred" });

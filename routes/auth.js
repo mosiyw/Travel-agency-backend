@@ -13,9 +13,8 @@ router.post("/register", (req, res) => {
 router.post("/login", (req, res) => {
   authController.login(req, res);
 });
-router.get("/profile", (req, res) => {
+router.get("/profile", authMiddleware.authenticate, (req, res) => {
   authController.getProfile(req, res);
-  authMiddleware.authenticate(req, res);
 });
 // Add more routes as needed
 

@@ -19,10 +19,10 @@ router.get("/:id", (req, res) => {
 
 router.post(
   "/",
-  authMiddleware.authenticate,
-  authMiddleware.isAdmin,
+  authMiddleware.authenticate, // Verify user authentication
+  authMiddleware.isAdmin, // Check if the authenticated user is an admin
   (req, res) => {
-    productController.createProduct(req, res);
+    productController.createProduct(req, res); // Handle the route logic
   }
 );
 
